@@ -1,0 +1,76 @@
+version: '3.8'
+services:
+    # PHP Service
+    application:
+        container_name: suggest_books_php
+        build:
+            context: ./docker
+            dockerfile: Dockerfile
+        ports:
+            - "9001:8000"
+        working_dir: /var/www
+        command: "symfony server:start --port=8000 --dir=/var/www"
+        depends_on:
+            - rabbitmq
+            - mailhog
+        environment:
+            MAILER_DSN: "smtp://mailhog:1025"
+        volumes:
+            - ./:/var/www
+            - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+        networks:
+            - suggest-books-network
+
+    nginx:
+        image: nginx:alpine
+        container_name: suggest_books_nginx
+        ports:
+            - "8081:80"
+            - "443:443"
+        volumes:
+            - ./:/var/www/
+            - ./docker/nginx/conf.d/:/etc/nginx/conf.d
+            - ./docker/nginx/ssl/:/etc/ssl
+        networks:
+            - suggest-books-network
+
+    mailhog:
+        image: mailhog/mailhog:latest
+        container_name: suggest_books_mailhog
+        restart: always
+        ports:
+            - "1025:1025"
+            - "8025:8025"
+        networks:
+            - suggest-books-network
+
+    rabbitmq:
+      image: rabbitmq:3.7-management
+      container_name: suggest_books_rabbitmq
+      ports: [5672, 15672]
+      volumes:
+        - ./rabbitmq.config:/etc/rabbitmq/rabbitmq.config
+      networks:
+          - suggest-books-network
+
+    database:
+        image: postgres:13-alpine
+        container_name: suggest_books_database
+        environment:
+            POSTGRES_DB: app
+            POSTGRES_PASSWORD: ChangeMe
+            POSTGRES_USER: symfony
+        volumes:
+            - db-data:/var/lib/postgresql/data:rw
+        ports:
+            - "5432"
+        networks:
+            - suggest-books-network
+
+networks:
+    suggest-books-network:
+        driver: bridge
+
+volumes:
+  db-data:
+      driver: local

@@ -1,0 +1,43 @@
+.flash-message {
+    padding: 1em;
+    margin: 1em 0;
+    border-radius: 5px;
+    position: relative;
+    transition: opacity 0.3s ease;
+}
+
+.flash-message.flash-success {
+    background-color: #28a745;
+    color: #ffffff;
+}
+
+.flash-message.flash-error {
+    background-color: #dc3545;
+    color: #ffffff;
+}
+
+.flash-message.flash-info {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+.flash-message.flash-warning {
+    background-color: #ffc107;
+    color: #333333;
+}
+
+.flash-message .close-btn {
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}

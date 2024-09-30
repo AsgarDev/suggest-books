@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Suggestion de livre{% endblock %}
+
+{% block body %}
+    <div class="form-wrapper">
+        {% if app.session.flashbag.peekAll|length > 0 %}
+            <div id="flash-messages" data-controller="flash-message" data-flash-message-target="message">
+                {% for type, messages in app.session.flashbag.all %}
+                    {% for message in messages %}
+                        <div class="flash-message flash-{{ type }}">
+                            {{ message|trans({}, domain|default('messages')) }}
+                            <button class="close-btn" aria-label="Close" data-action="click->flash-message#close">&times;</button>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <h1>Faites votre suggestion pour ajouter un livre à notre bibliothèque !</h1>
+
+        {{ form_start(suggestionForm) }}
+        <div class="form-row">
+            <div class="form-label-wrapper">
+                {{ form_label(suggestionForm.description) }}
+            </div>
+            <div class="form-input-wrapper">
+                {{ form_widget(suggestionForm.description) }}
+                {{ form_errors(suggestionForm.description) }}
+            </div>
+        </div>
+        <button type="submit">Envoyer</button>
+        {{ form_end(suggestionForm) }}
+
+        <p class="note">
+            N'oubliez pas de vous connecter avec une adresse mail valide pour que votre suggestion soit prise en compte !
+        </p>
+        <p class="note">
+            Si vous n'avez pas encore de compte, <a href="{{ path('app_register') }}">cliquez ici</a> pour créer un compte.
+        </p>
+    </div>
+{% endblock %}
