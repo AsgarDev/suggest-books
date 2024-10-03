@@ -42,11 +42,6 @@ class SuggestionService
         $this->entityManager->persist($suggestion);
         $this->entityManager->flush();
 
-        $this->sendNotification($suggestion);
-    }
-
-    private function sendNotification(Suggestion $suggestion): void
-    {
         if ($suggestion->getId() && $suggestion->getSuggester() && $suggestion->getSuggester()->getEmail()) {
             $this->bus->dispatch(new MailNotification(
                 $suggestion->getDescription(),
