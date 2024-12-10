@@ -5,10 +5,8 @@ services:
         build:
             context: ./docker
             dockerfile: Dockerfile
-        ports:
-            - "9001:8000"
         working_dir: /var/www
-        command: "symfony server:start --port=8000 --no-tls --allow-http --listen-ip=0.0.0.0 --dir=/var/www"
+        command: php-fpm
         depends_on:
             - rabbitmq
             - mailhog
@@ -24,7 +22,7 @@ services:
         image: nginx:alpine
         container_name: suggest_books_nginx
         ports:
-            - "8081:80"
+            - "9001:80"
             - "443:443"
         volumes:
             - ./:/var/www/
