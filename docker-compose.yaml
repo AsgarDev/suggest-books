@@ -1,6 +1,5 @@
 version: '3.8'
 services:
-    # PHP Service
     application:
         container_name: suggest_books_php
         build:
@@ -9,7 +8,7 @@ services:
         ports:
             - "9001:8000"
         working_dir: /var/www
-        command: "symfony server:start --port=8000 --dir=/var/www"
+        command: "symfony server:start --port=8000 --no-tls --allow-http --listen-ip=0.0.0.0 --dir=/var/www"
         depends_on:
             - rabbitmq
             - mailhog
@@ -52,6 +51,14 @@ services:
         - ./rabbitmq.config:/etc/rabbitmq/rabbitmq.config
       networks:
           - suggest-books-network
+
+    redis:
+        image: redis:alpine
+        container_name: suggest_books_redis
+        ports:
+            - "6379:6379"
+        networks:
+            - suggest-books-network
 
     database:
         image: postgres:13-alpine

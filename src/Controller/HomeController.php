@@ -30,8 +30,11 @@ class HomeController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
+        $recentSuggestions = $suggestionService->getRecentSuggestions();
+
         return $this->render('home/index.html.twig', [
             'suggestionForm' => $form->createView(),
+            'recentSuggestions' => $recentSuggestions,
         ]);
     }
 }

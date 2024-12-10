@@ -26,3 +26,9 @@ services:
     App\EventListener\CreatedAtListener:
         tags:
             - { name: 'doctrine.event_listener', event: 'prePersist' }
+
+    Predis\ClientInterface:
+        class: Predis\Client
+        arguments:
+            $parameters: '%env(REDIS_URL)%'
+        public: true

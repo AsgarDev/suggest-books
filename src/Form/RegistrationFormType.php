@@ -35,7 +35,7 @@ class RegistrationFormType extends AbstractType
                         new Length([
                             'min' => 6,
                             'minMessage' => 'Le mot de passe doit contenir au minimum {{ limit }} caractères',
-                            'max' => 4096,
+                            'max' => 60,
                         ]),
                     ],
                 ],
@@ -45,15 +45,6 @@ class RegistrationFormType extends AbstractType
                 ],
                 'invalid_message' => 'Les mots de passe ne correspondent pas.',
                 'mapped' => false,
-            ])
-            ->add('agreeTerms', CheckboxType::class, [
-                'label' => 'Conditions d\'utilisation',
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'Vous devez accepter les conditions d\utilisation.',
-                    ]),
-                ],
             ])
         ;
     }

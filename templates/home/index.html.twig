@@ -17,6 +17,13 @@
             </div>
         {% endif %}
 
+        <h2>Suggestions récentes</h2>
+        <ul>
+            {% for suggestion in recentSuggestions %}
+                <li>{{ suggestion.description }} - {{ suggestion.submitted_at }}</li>
+            {% endfor %}
+        </ul>
+
         <h1>Faites votre suggestion pour ajouter un livre à notre bibliothèque !</h1>
 
         {{ form_start(suggestionForm) }}
