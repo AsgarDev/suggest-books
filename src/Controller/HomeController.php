@@ -16,9 +16,13 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class HomeController extends AbstractController
 {
-    #[Route('/', name: 'home')]
+    #[Route('/', name: 'app_home')]
     public function __invoke(Request $request, SuggestionService $suggestionService): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
         $form = $suggestionService->createSuggestionForm();
         $form->handleRequest($request);
 
@@ -27,7 +31,7 @@ class HomeController extends AbstractController
             $suggestionService->handleFormSubmission($form);
 
             $this->addFlash('success', 'Votre suggestion a été envoyée !');
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('app_home');
         }
 
         $recentSuggestions = $suggestionService->getRecentSuggestions();

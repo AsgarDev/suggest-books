@@ -24,6 +24,8 @@
             {% endfor %}
         </ul>
 
+        <hr>
+
         <h1>Faites votre suggestion pour ajouter un livre à notre bibliothèque !</h1>
 
         {{ form_start(suggestionForm) }}
@@ -36,14 +38,8 @@
                 {{ form_errors(suggestionForm.description) }}
             </div>
         </div>
+
         <button type="submit">Envoyer</button>
         {{ form_end(suggestionForm) }}
-
-        <p class="note">
-            N'oubliez pas de vous connecter avec une adresse mail valide pour que votre suggestion soit prise en compte !
-        </p>
-        <p class="note">
-            Si vous n'avez pas encore de compte, <a href="{{ path('app_register') }}">cliquez ici</a> pour créer un compte.
-        </p>
     </div>
 {% endblock %}
